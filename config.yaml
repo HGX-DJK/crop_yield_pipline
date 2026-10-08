@@ -1,0 +1,44 @@
+# 农作物产量预测与提取流水线参数配置文件
+# 严格遵循《联合国农业统计遥感手册》（第 18-22 章与第 26 章）方法规范
+
+project:
+  name: "UN-Handbook Crop Yield Extraction Pipeline"
+  crop: "Summer Maize"
+  version: "1.0.0"
+
+paths:
+  data_dir: "data"
+  remote_sensing_file: "data/sample_remote_sensing.csv"
+  weather_file: "data/sample_weather.csv"
+  survey_file: "data/sample_ground_survey.csv"
+  output_dir: "output"
+
+phenology_and_gdd:
+  base_temperature: 10.0      # 作物生长度日基础生物学零度（玉米/大豆 Tb=10°C，小麦 Tb=5°C）
+  gdd_checkpoints: [300, 600, 900, 1200]  # 热量时间关键积温插值节点（单位：°C·日）
+  vegetation_indices: ["NDVI", "EVI", "NDRE"]
+
+modeling:
+  model_type: "random_forest"  # 模型选项：'random_forest', 'xgboost', 'ridge'
+  test_size: 0.2
+  random_state: 42
+  cv_folds: 5
+  rf_params:
+    n_estimators: 100
+    max_depth: 8
+    min_samples_leaf: 2
+  xgb_params:
+    n_estimators: 100
+    max_depth: 4
+    learning_rate: 0.05
+
+ppi_inference:
+  enabled: true
+  n_bootstrap: 2000            # 计算置信区间的 Bootstrap 重抽样次数
+  confidence_level: 0.95       # 置信水平（95% 置信区间）
+  quantiles: [0.25, 0.50, 0.75] # 感兴趣的产量分位数（评估低产脆弱户 vs 高产示范田）
+
+visualization:
+  generate_plots: true
+  plot_dpi: 300
+

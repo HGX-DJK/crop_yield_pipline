@@ -1,0 +1,8 @@
+# 农作物产量预测流水线依赖包清单
+numpy>=1.22.0
+pandas>=1.4.0
+scipy>=1.8.0
+scikit-learn>=1.0.0
+xgboost>=1.6.0
+matplotlib>=3.5.0
+pyyaml>=6.0
