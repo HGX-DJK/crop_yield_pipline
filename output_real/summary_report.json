@@ -1,0 +1,85 @@
+{
+  "project": {
+    "name": "Sentinel-2 Real Imagery Crop Yield Validation",
+    "crop": "Tropical Maize / Soybean",
+    "version": "1.0.0"
+  },
+  "model_performance": {
+    "r2": -0.5158,
+    "rmse": 241.88,
+    "mae": 193.25,
+    "mape_pct": 4.03,
+    "n_samples": 25
+  },
+  "top_features": {
+    "ndvi_mean": 0.2422,
+    "ndvi_max": 0.183,
+    "lst_peak_season": 0.094,
+    "senescence_rate": 0.0886,
+    "ndvi_gdd_300": 0.0885,
+    "ndvi_gdd_600": 0.0777,
+    "green_up_rate": 0.0548,
+    "ndvi_auc": 0.0515
+  },
+  "ppi_statistical_inference": {
+    "sample_counts": {
+      "total_parcels": 40,
+      "survey_parcels": 25,
+      "sampling_ratio_pct": 62.5
+    },
+    "tuning_parameter_omega": 1.6717,
+    "estimates": [
+      {
+        "method": "Survey-Only (仅实地调查)",
+        "point_estimate_kg_ha": 4813.2,
+        "std_error": 38.9,
+        "ci_95_lower": 4741.1,
+        "ci_95_upper": 4890.5,
+        "ci_width": 149.3,
+        "unbiased": true,
+        "description": "仅利用实地抽样点；无偏但方差大、置信区间较宽"
+      },
+      {
+        "method": "Map-Only (纯卫星预测)",
+        "point_estimate_kg_ha": 4816.8,
+        "std_error": 14.9,
+        "ci_95_lower": 4787.5,
+        "ci_95_upper": 4846.1,
+        "ci_width": 58.6,
+        "unbiased": false,
+        "description": "直接拿卫星模型预测全域；区间看似很窄但含有系统性偏差"
+      },
+      {
+        "method": "Predict-Then-Debias (PTD 预测后去偏)",
+        "point_estimate_kg_ha": 4811.8,
+        "std_error": 15.2,
+        "ci_95_lower": 4779.9,
+        "ci_95_upper": 4840.0,
+        "ci_width": 60.1,
+        "unbiased": true,
+        "description": "联合国手册方案：利用实测样点修正卫星偏差；兼具无偏与高精度"
+      }
+    ],
+    "variance_reduction_pct": 59.76,
+    "quantile_estimates": [
+      {
+        "quantile": 0.25,
+        "survey_estimate": 4700.2,
+        "map_estimate": 4764.3,
+        "ptd_estimate": 4704.7
+      },
+      {
+        "quantile": 0.5,
+        "survey_estimate": 4760.1,
+        "map_estimate": 4806.9,
+        "ptd_estimate": 4767.5
+      },
+      {
+        "quantile": 0.75,
+        "survey_estimate": 4936.0,
+        "map_estimate": 4854.7,
+        "ptd_estimate": 4910.4
+      }
+    ]
+  }
+}

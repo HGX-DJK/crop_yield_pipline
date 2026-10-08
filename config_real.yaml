@@ -1,0 +1,36 @@
+project:
+  name: "Sentinel-2 Real Imagery Crop Yield Validation"
+  crop: "Tropical Maize / Soybean"
+  version: "1.0.0"
+
+paths:
+  data_dir: "data"
+  remote_sensing_file: "data/real_sentinel2_remote_sensing.csv"
+  weather_file: "data/real_weather.csv"
+  survey_file: "data/real_ground_survey.csv"
+  output_dir: "output_real"
+
+phenology_and_gdd:
+  base_temperature: 10.0
+  gdd_checkpoints: [300, 600, 900, 1200]
+  vegetation_indices: ["NDVI", "EVI"]
+
+modeling:
+  model_type: "random_forest"
+  test_size: 0.2
+  random_state: 42
+  cv_folds: 5
+  rf_params:
+    n_estimators: 100
+    max_depth: 8
+    min_samples_leaf: 2
+
+ppi_inference:
+  enabled: true
+  n_bootstrap: 2000
+  confidence_level: 0.95
+  quantiles: [0.25, 0.50, 0.75]
+
+visualization:
+  generate_plots: true
+  plot_dpi: 300
